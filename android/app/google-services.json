@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "151068046346",
+    "project_id": "medical-checkup-app",
+    "storage_bucket": "medical-checkup-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151068046346:android:f712d4b82ab078da931bf3",
+        "android_client_info": {
+          "package_name": "com.example.medical_checkup_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3AfXzOrUBwf3NPmtewDzUIxJAc68kVGs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
