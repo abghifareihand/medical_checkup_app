@@ -23,10 +23,15 @@ class _KeluhanPasienPageState extends State<KeluhanPasienPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.white,
+      appBar: AppBar(
+        title: const Text('Keluhan'),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: AppColor.primary,
+      ),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          const SizedBox(height: 40),
           TextTile(
             label: 'Tanggal Datang',
             text: DateTime.now().toFormattedDate(),
@@ -55,11 +60,11 @@ class _KeluhanPasienPageState extends State<KeluhanPasienPage> {
                           'Anda berhasil menambahkan keluhan, tunggu balasan dari petugas',
                       onDonePressed: () {
                         Navigator.pop(context);
+                        Navigator.pop(context);
                       },
                     );
                   },
                 );
-                _keluhanController.clear();
               }
 
               if (state is AddKeluhanError) {

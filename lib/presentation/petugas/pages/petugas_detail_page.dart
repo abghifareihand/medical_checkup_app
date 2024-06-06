@@ -65,7 +65,7 @@ class _PetugasDetailPageState extends State<PetugasDetailPage> {
                     return CustomDialog(
                       icon: Icons.check_circle,
                       title: 'Berhasil',
-                      message: 'Anda berhasil merespon komentar dari pasien',
+                      message: 'Anda berhasil merespon keluhan dari pasien',
                       onDonePressed: () {
                         Navigator.pop(context);
                         Navigator.pop(context);
@@ -87,7 +87,7 @@ class _PetugasDetailPageState extends State<PetugasDetailPage> {
                         ),
                       );
                 },
-                text: 'Tambah Komentar',
+                text: 'Respon Keluhan Pasien',
                 isLoading: state is AddKomentarLoading,
               );
             },

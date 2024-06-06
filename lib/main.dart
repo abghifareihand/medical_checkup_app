@@ -52,17 +52,10 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Firebase App',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          useMaterial3: true,
-          // primarySwatch: Colors.blue,
+          useMaterial3: false,
         ),
-        // initialRoute: FirebaseAuth.instance.currentUser == null ? '/login' : '/',
-        // routes: {
-        //   '/': (context) => const MainScreen(),
-        //   '/login': (context) => const LoginScreen(),
-        //   '/register': (context) => const RegisterScreen(),
-        // },
         home: const SplashPage(),
       ),
     );

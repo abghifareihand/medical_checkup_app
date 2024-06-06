@@ -13,10 +13,15 @@ class HistoryPasienDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.white,
+      appBar: AppBar(
+        elevation: 0,
+        title: const Text('Detail Keluhan'),
+        centerTitle: true,
+        backgroundColor: AppColor.primary,
+      ),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          const SizedBox(height: 30),
           HistoryTile(
             label: 'Tanggal Kedatangan',
             title: keluhan.tanggalDatang.toFormattedDate(),
@@ -77,7 +82,7 @@ class HistoryTile extends StatelessWidget {
             ),
           ),
           const Divider(
-            color: AppColor.lightgrey,
+            color: AppColor.grey,
           ),
         ],
       ),

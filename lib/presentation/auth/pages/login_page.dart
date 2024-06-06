@@ -50,13 +50,6 @@ class _LoginPageState extends State<LoginPage> {
             listener: (context, state) {
               if (state is LoginLoaded) {
                 final user = state.user;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Selamat datang ${user.role} ${user.email}'),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-
                 debugPrint('Rolemu : ${user.role}');
 
                 /// Jika role PASIEN ke DashboardPasien

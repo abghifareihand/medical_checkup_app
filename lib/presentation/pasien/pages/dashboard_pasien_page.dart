@@ -78,7 +78,7 @@ class _DashboardPasienPageState extends State<DashboardPasienPage> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.book),
-                label: 'History',
+                label: 'Riwayat',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
