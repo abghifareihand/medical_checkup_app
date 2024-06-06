@@ -1,28 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
 
 class UserResponseModel {
   final String id;
   final String name;
   final String email;
   final String role;
-  final Timestamp timedate;
 
   UserResponseModel({
     required this.id,
     required this.name,
     required this.email,
     required this.role,
-    required this.timedate,
   });
 
-  factory UserResponseModel.fromFirestore(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+  factory UserResponseModel.fromDocumentSnapshot(DocumentSnapshot snapshot) {
     return UserResponseModel(
-      id: doc.id,
-      name: data['name'],
-      email: data['email'],
-      role: data['role'],
-      timedate: data['timedate'],
+      id: snapshot.id,
+      name: snapshot['name'],
+      email: snapshot['email'],
+      role: snapshot['role'],
     );
   }
 
@@ -32,7 +29,19 @@ class UserResponseModel {
       'name': name,
       'email': email,
       'role': role,
-      'timedate': timedate,
     };
+  }
+
+  // Mengubah UserResponseModel menjadi String JSON
+  factory UserResponseModel.fromJson(String source) => UserResponseModel.fromMap(json.decode(source));
+  String toJson() => json.encode(toMap());
+
+  factory UserResponseModel.fromMap(Map<String, dynamic> map) {
+    return UserResponseModel(
+      id: map['id'],
+      name: map['name'],
+      email: map['email'],
+      role: map['role'],
+    );
   }
 }

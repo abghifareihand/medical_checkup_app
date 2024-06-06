@@ -2,40 +2,51 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class KeluhanResponseModel {
   final String id;
-  final String pasienId;
-  final String keluhan;
-  final String komentar;
   final String status;
-  final Timestamp timedate;
+  final String pasienId;
+  final String pasienName;
+  final String pasienKeluhan;
+  final String petugasCatatan;
+  final DateTime tanggalDatang;
+  final DateTime? tanggalKembali;
 
   KeluhanResponseModel({
     required this.id,
-    required this.pasienId,
-    required this.keluhan,
-    required this.komentar,
     required this.status,
-    required this.timedate,
+    required this.pasienId,
+    required this.pasienName,
+    required this.pasienKeluhan,
+    required this.petugasCatatan,
+    required this.tanggalDatang,
+    this.tanggalKembali,
   });
 
-  factory KeluhanResponseModel.fromFirestore(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+  factory KeluhanResponseModel.fromDocumentSnapshot(DocumentSnapshot snapshot) {
     return KeluhanResponseModel(
-      id: doc.id,
-      pasienId: data['pasienId'],
-      keluhan: data['keluhan'],
-      komentar: data['komentar'],
-      status: data['status'],
-      timedate: data['timedate'],
+      id: snapshot.id,
+      status: snapshot['status'],
+      pasienId: snapshot['pasienId'],
+      pasienName: snapshot['pasienName'],
+      pasienKeluhan: snapshot['pasienKeluhan'],
+      petugasCatatan: snapshot['petugasCatatan'],
+      tanggalDatang: snapshot['tanggalDatang'] != null
+          ? (snapshot['tanggalDatang'] as Timestamp).toDate()
+          : DateTime.now(),
+      tanggalKembali: snapshot['tanggalKembali'] != null
+          ? (snapshot['tanggalKembali'] as Timestamp).toDate()
+          : null,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'pasienId': pasienId,
-      'keluhan': keluhan,
-      'komentar': komentar,
       'status': status,
-      'timedate': timedate,
+      'pasienId': pasienId,
+      'pasienName': pasienName,
+      'pasienKeluhan': pasienKeluhan,
+      'petugasCatatan': petugasCatatan,
+      'tanggalDatang': tanggalDatang,
+      'tanggalKembali': tanggalKembali,
     };
   }
 }
