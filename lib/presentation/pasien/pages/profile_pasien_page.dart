@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_checkup_app/core/components/custom_alert.dart';
 import 'package:medical_checkup_app/core/components/custom_button.dart';
-import 'package:medical_checkup_app/core/components/custom_dialog.dart';
 import 'package:medical_checkup_app/core/components/spaces.dart';
 import 'package:medical_checkup_app/core/constants/app_color.dart';
 import 'package:medical_checkup_app/core/constants/app_font.dart';

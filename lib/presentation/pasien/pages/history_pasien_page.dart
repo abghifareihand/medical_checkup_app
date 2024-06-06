@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_checkup_app/core/constants/app_color.dart';
 import 'package:medical_checkup_app/core/constants/app_font.dart';
-import 'package:medical_checkup_app/presentation/pasien/pages/history_pasien_detail_page.dart';
 import 'package:medical_checkup_app/presentation/pasien/widgets/history_card.dart';
 
 import '../bloc/get_keluhan_pasien/get_keluhan_pasien_bloc.dart';

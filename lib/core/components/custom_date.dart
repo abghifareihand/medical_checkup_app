@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Gunakan intl untuk memformat tanggal
 import 'package:medical_checkup_app/core/constants/date_time_ext.dart';
 
 import '../constants/app_color.dart';
@@ -11,14 +10,14 @@ class CustomDate extends StatefulWidget {
   final ValueChanged<DateTime?> onDateChanged;
 
   const CustomDate({
-    Key? key,
+    super.key,
     required this.label,
     this.initialDate, // Ubah tipe data menjadi DateTime nullable
     required this.onDateChanged,
-  }) : super(key: key);
+  });
 
   @override
-  _CustomDateState createState() => _CustomDateState();
+  State<CustomDate> createState() => _CustomDateState();
 }
 
 class _CustomDateState extends State<CustomDate> {
@@ -107,3 +106,5 @@ class _CustomDateState extends State<CustomDate> {
     );
   }
 }
+
+
