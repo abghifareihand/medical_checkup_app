@@ -1,24 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:medical_checkup_app/core/components/custom_button.dart';
-import 'package:medical_checkup_app/core/components/custom_dialog.dart';
-import 'package:medical_checkup_app/core/components/custom_field.dart';
 import 'package:medical_checkup_app/core/constants/app_color.dart';
-import 'package:medical_checkup_app/core/constants/date_time_ext.dart';
-import 'package:medical_checkup_app/presentation/pasien/bloc/add_keluhan/add_keluhan_bloc.dart';
-import 'package:medical_checkup_app/presentation/petugas/widgets/text_tile.dart';
+import 'package:medical_checkup_app/core/constants/app_font.dart';
+import 'package:medical_checkup_app/core/constants/app_image.dart';
+import 'package:medical_checkup_app/data/models/berita_response_model.dart';
+import 'package:medical_checkup_app/presentation/auth/bloc/user/user_bloc.dart';
+import 'package:medical_checkup_app/presentation/pasien/pages/keluhan_pasien_page.dart';
+import 'package:medical_checkup_app/presentation/pasien/widgets/berita_tile.dart';
 
-class HomePasienPage extends StatefulWidget {
+class HomePasienPage extends StatelessWidget {
   const HomePasienPage({super.key});
 
-  @override
-  State<HomePasienPage> createState() => _HomePasienPageState();
-}
-
-class _HomePasienPageState extends State<HomePasienPage> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _keluhanController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,67 +18,129 @@ class _HomePasienPageState extends State<HomePasienPage> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          const SizedBox(height: 40),
-          TextTile(
-            label: 'Tanggal Datang',
-            text: DateTime.now().toFormattedDate(),
-          ),
-          CustomField.text(
-            controller: _nameController,
-            label: 'Nama Pasien',
-          ),
-          CustomField.comment(
-            controller: _keluhanController,
-            label: 'Keluhan Pasien',
-            maxLines: 4,
-          ),
-          const SizedBox(height: 20),
-          BlocConsumer<AddKeluhanBloc, AddKeluhanState>(
-            listener: (context, state) {
-              if (state is AddKeluhanLoaded) {
-                showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext context) {
-                    return CustomDialog(
-                      icon: Icons.check_circle,
-                      title: 'Berhasil',
-                      message:
-                          'Anda berhasil menambahkan keluhan, tunggu balasan dari petugas',
-                      onDonePressed: () {
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
-                );
-                _keluhanController.clear();
-              }
-
-              if (state is AddKeluhanError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.message),
-                    backgroundColor: AppColor.red,
+          /// User Card
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              if (state is UserLoaded) {
+                final user = state.user;
+                return Container(
+                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Selamat Datang',
+                            style: AppFont.blackText.copyWith(
+                              fontSize: 14,
+                              fontWeight: regular,
+                            ),
+                          ),
+                          Text(
+                            user.name,
+                            style: AppFont.blackText.copyWith(
+                              fontSize: 14,
+                              fontWeight: semiBold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      ClipOval(
+                        child: Image.asset(
+                          width: 34,
+                          height: 34,
+                          AppImage.icPasien,
+                        ),
+                      ),
+                    ],
                   ),
                 );
               }
+              return Container();
             },
-            builder: (context, state) {
-              return CustomButton(
-                onPressed: () {
-                  final user = FirebaseAuth.instance.currentUser;
-                  context.read<AddKeluhanBloc>().add(
-                        AddKeluhan(
-                          pasienId: user!.uid,
-                          pasienName: _nameController.text,
-                          keluhan: _keluhanController.text,
+          ),
+
+          /// Card to Keluhan
+          Container(
+            padding: const EdgeInsets.all(20),
+            height: 150,
+            decoration: BoxDecoration(
+              color: AppColor.primary.withOpacity(0.9),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Apa keluhan\nanda sekarang ?',
+                      style: AppFont.whiteText.copyWith(
+                        fontSize: 16,
+                        fontWeight: semiBold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColor.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                      );
-                },
-                text: 'Add Keluhan',
-                isLoading: state is AddKeluhanLoading,
-              );
-            },
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const KeluhanPasienPage(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Klik disini',
+                        style: AppFont.blackText.copyWith(
+                          fontWeight: medium,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Image.asset(
+                  AppImage.doctor,
+                ),
+              ],
+            ),
+          ),
+
+          /// Top doctor
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Berita Terkini',
+                  style: AppFont.blackText.copyWith(
+                    fontSize: 16,
+                    fontWeight: semiBold,
+                  ),
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  itemCount: dummyBeritaList.length,
+                  itemBuilder: (context, index) {
+                    return BeritaTile(
+                      berita: dummyBeritaList[index],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),
