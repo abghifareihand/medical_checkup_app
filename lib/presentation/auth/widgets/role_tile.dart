@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical_checkup_app/core/constants/app_color.dart';
 import 'package:medical_checkup_app/core/constants/app_font.dart';
-import 'package:medical_checkup_app/core/constants/app_image.dart';
-
 import '../../../../core/components/spaces.dart';
 
 class RoleTile extends StatelessWidget {
