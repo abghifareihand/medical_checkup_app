@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medical_checkup_app/data/datasources/notification_service.dart';
 import 'package:medical_checkup_app/presentation/auth/bloc/logout/logout_bloc.dart';
 import 'package:medical_checkup_app/presentation/auth/bloc/user/user_bloc.dart';
 import 'package:medical_checkup_app/presentation/auth/pages/splash_page.dart';
@@ -17,6 +18,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await NotificationService.initialize();
   runApp(const MyApp());
 }
 

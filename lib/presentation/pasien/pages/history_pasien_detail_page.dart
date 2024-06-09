@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:medical_checkup_app/core/components/custom_button.dart';
 import 'package:medical_checkup_app/core/constants/app_color.dart';
 import 'package:medical_checkup_app/core/constants/app_font.dart';
@@ -24,11 +25,13 @@ class HistoryPasienDetailPage extends StatelessWidget {
         children: [
           HistoryTile(
             label: 'Tanggal Kedatangan',
-            title: keluhan.tanggalDatang.toFormattedDate(),
+            title:
+                '${keluhan.tanggalDatang.toFormattedDate()} ${DateFormat.Hm().format(keluhan.tanggalDatang)}', // Menggunakan DateFormat untuk mengambil jam dan menit dari timestamp,
           ),
           HistoryTile(
             label: 'Tanggal Harus Kembali',
-            title: keluhan.tanggalKembali!.toFormattedDate(),
+            title:
+                '${keluhan.tanggalKembali!.toFormattedDate()} ${DateFormat.Hm().format(keluhan.tanggalKembali!)}', // Menggunakan DateFormat untuk mengambil jam dan menit dari timestamp ,
           ),
           HistoryTile(
             label: 'Catatan Petugas',

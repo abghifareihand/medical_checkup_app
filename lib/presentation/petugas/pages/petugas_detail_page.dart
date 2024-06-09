@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_checkup_app/core/components/custom_button.dart';
 import 'package:medical_checkup_app/core/components/custom_date.dart';
 import 'package:medical_checkup_app/core/components/custom_dialog.dart';
 import 'package:medical_checkup_app/core/components/custom_field.dart';
+import 'package:medical_checkup_app/core/components/custom_time.dart';
 import 'package:medical_checkup_app/core/constants/app_color.dart';
 import 'package:medical_checkup_app/core/constants/date_time_ext.dart';
 import 'package:medical_checkup_app/data/models/keluhan_response_model.dart';
@@ -20,7 +22,40 @@ class PetugasDetailPage extends StatefulWidget {
 
 class _PetugasDetailPageState extends State<PetugasDetailPage> {
   final TextEditingController _catatanController = TextEditingController();
-  DateTime? _selectedDate;
+  DateTime _selectedDate = DateTime.now();
+  TimeOfDay _selectedTime = TimeOfDay.now();
+
+  void _scheduleReminder(
+    String userId,
+    String title,
+    DateTime selectedTime,
+  ) async {
+    DateTime scheduledDate = DateTime(
+      _selectedDate.year,
+      _selectedDate.month,
+      _selectedDate.day,
+      selectedTime.hour,
+      selectedTime.minute,
+    );
+
+    // Tambahkan pengingat ke koleksi 'reminders' di dokumen pengguna yang dituju
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('reminders')
+        .add({
+      'title': title,
+      'scheduledDate': scheduledDate,
+      'isActive': false,
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Reminder added successfully!'),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +78,19 @@ class _PetugasDetailPageState extends State<PetugasDetailPage> {
           ),
           CustomDate(
             label: 'Tanggal Harus Kembali',
-            initialDate: null,
+            initialDate: _selectedDate,
             onDateChanged: (newDate) {
               setState(() {
-                _selectedDate = newDate;
+                _selectedDate = newDate!;
+              });
+            },
+          ),
+          CustomTime(
+            label: 'Jam Harus Kembali',
+            initialTime: _selectedTime,
+            onTimeChanged: (newTime) {
+              setState(() {
+                _selectedTime = newTime!;
               });
             },
           ),
@@ -79,13 +123,25 @@ class _PetugasDetailPageState extends State<PetugasDetailPage> {
             builder: (context, state) {
               return CustomButton(
                 onPressed: () {
+                  DateTime selectedDateTime = DateTime(
+                    _selectedDate.year,
+                    _selectedDate.month,
+                    _selectedDate.day,
+                    _selectedTime.hour,
+                    _selectedTime.minute,
+                  );
                   context.read<AddKomentarBloc>().add(
                         AddKomentar(
                           keluhanId: widget.keluhan.id,
                           catatan: _catatanController.text,
-                          tanggalKembali: _selectedDate!,
+                          tanggalKembali: selectedDateTime,
                         ),
                       );
+                  _scheduleReminder(
+                    widget.keluhan.pasienId,
+                    _catatanController.text,
+                    selectedDateTime,
+                  );
                 },
                 text: 'Respon Keluhan Pasien',
                 isLoading: state is AddKomentarLoading,

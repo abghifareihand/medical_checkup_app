@@ -1,4 +1,7 @@
 // Ekstensi DateTimeExt
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 extension DateTimeExt on DateTime {
   String toFormattedDate() {
     const List<String> monthNames = [
@@ -32,5 +35,13 @@ extension DateTimeExt on DateTime {
     String year = this.year.toString();
 
     return '$dayName, $day $month $year';
+  }
+}
+
+
+extension TimeOfDayExt on TimeOfDay {
+  String toFormattedTime() {
+    final DateTime now = DateTime(2000, 1, 1, hour, minute);
+    return DateFormat.jm().format(now); // Menggunakan DateFormat dari intl package
   }
 }

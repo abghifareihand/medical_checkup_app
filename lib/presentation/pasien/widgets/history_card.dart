@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:medical_checkup_app/core/constants/app_color.dart';
 import 'package:medical_checkup_app/core/constants/app_font.dart';
 import 'package:medical_checkup_app/core/constants/date_time_ext.dart';
@@ -44,7 +45,7 @@ class HistoryCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  keluhan.tanggalDatang.toFormattedDate(),
+                  keluhan.tanggalDatang.toFormattedDate(), // Menggunakan DateFormat untuk mengambil jam dan menit dari timestamp
                   style: AppFont.blackText.copyWith(
                     fontWeight: medium,
                   ),

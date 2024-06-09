@@ -6,6 +6,7 @@ import 'package:medical_checkup_app/core/constants/app_image.dart';
 import 'package:medical_checkup_app/data/models/berita_response_model.dart';
 import 'package:medical_checkup_app/presentation/auth/bloc/user/user_bloc.dart';
 import 'package:medical_checkup_app/presentation/pasien/pages/keluhan_pasien_page.dart';
+import 'package:medical_checkup_app/presentation/pasien/pages/notification_page.dart';
 import 'package:medical_checkup_app/presentation/pasien/widgets/berita_tile.dart';
 
 class HomePasienPage extends StatelessWidget {
@@ -47,11 +48,22 @@ class HomePasienPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      ClipOval(
-                        child: Image.asset(
-                          width: 34,
-                          height: 34,
-                          AppImage.icPasien,
+                      InkWell(
+                        borderRadius: BorderRadius.circular(50),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const NotificationPage(),
+                            ),
+                          );
+                        },
+                        child: ClipOval(
+                          child: Image.asset(
+                            width: 34,
+                            height: 34,
+                            AppImage.icPasien,
+                          ),
                         ),
                       ),
                     ],

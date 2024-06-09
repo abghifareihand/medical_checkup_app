@@ -1,46 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:medical_checkup_app/core/constants/date_time_ext.dart';
 
 import '../constants/app_color.dart';
 import '../constants/app_font.dart';
 
-class CustomDate extends StatefulWidget {
+class CustomTime extends StatefulWidget {
   final String label;
-  final DateTime? initialDate;
-  final ValueChanged<DateTime?> onDateChanged;
+  final TimeOfDay? initialTime;
+  final ValueChanged<TimeOfDay?> onTimeChanged;
 
-  const CustomDate({
+  const CustomTime({
     super.key,
     required this.label,
-    this.initialDate,
-    required this.onDateChanged,
+    this.initialTime,
+    required this.onTimeChanged,
   });
 
   @override
-  State<CustomDate> createState() => _CustomDateState();
+  State<CustomTime> createState() => _CustomTimeState();
 }
 
-class _CustomDateState extends State<CustomDate> {
-  late DateTime _selectedDate; // Ubah tipe data menjadi DateTime non-nullable
+class _CustomTimeState extends State<CustomTime> {
+  late TimeOfDay? _selectedTime; // Ubah tipe data menjadi DateTime nullable
 
   @override
   void initState() {
     super.initState();
-    _selectedDate = widget.initialDate ?? DateTime.now(); // Menggunakan DateTime saat ini jika initialDate null
+    _selectedTime = widget.initialTime; // Menggunakan widget.initialDate
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
+  // Future<void> _selectDate(BuildContext context) async {
+  //   final DateTime? picked = await showDatePicker(
+  //     context: context,
+  //     initialDate: _selectedTime ?? DateTime.now(),
+  //     firstDate: DateTime.now(),
+  //     lastDate: DateTime(2101),
+  //   );
+  //   if (picked != null && picked != _selectedDate) {
+  //     setState(() {
+  //       _selectedDate = picked;
+  //     });
+  //     widget.onDateChanged(picked);
+  //   }
+  // }
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2101),
+      initialTime: _selectedTime ?? TimeOfDay.now(),
     );
-    if (picked != null && picked != _selectedDate) {
+    if (picked != null && picked != _selectedTime) {
       setState(() {
-        _selectedDate = picked;
+        _selectedTime = picked;
       });
-      widget.onDateChanged(picked);
+      widget.onTimeChanged(picked);
     }
   }
 
@@ -59,7 +71,7 @@ class _CustomDateState extends State<CustomDate> {
           ),
           const SizedBox(height: 8.0),
           InkWell(
-            onTap: () => _selectDate(context),
+            onTap: () => _selectedTime,
             child: InputDecorator(
               decoration: InputDecoration(
                 filled: true,
@@ -84,15 +96,15 @@ class _CustomDateState extends State<CustomDate> {
                   horizontal: 12.0,
                 ),
                 suffixIcon: InkWell(
-                  onTap: () => _selectDate(context),
+                  onTap: () => _selectTime(context),
                   child: const Icon(
-                    Icons.calendar_today,
+                    Icons.alarm,
                     color: AppColor.primary, // Warna ikon kalender
                   ),
                 ),
               ),
               child: Text(
-                _selectedDate.toFormattedDate(),
+                '${_selectedTime!.hour.toString().padLeft(2, '0')}:${_selectedTime!.minute.toString().padLeft(2, '0')}',
                 style: AppFont.blackText.copyWith(
                   fontSize: 14,
                   fontWeight: medium,
